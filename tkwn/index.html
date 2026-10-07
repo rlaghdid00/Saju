@@ -1,0 +1,2838 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나의 오행 바이브 | O-Haeng Vibe</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family:
+        "Pretendard",
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        Arial,
+        sans-serif;
+    background: #f7f8fc;
+    color: #222;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.page {
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* =========================
+   INTRO
+========================= */
+
+#intro {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(129,140,248,.25), transparent 30%),
+        radial-gradient(circle at 85% 80%, rgba(244,114,182,.20), transparent 30%),
+        #0f172a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.intro-content {
+    max-width: 700px;
+    position: relative;
+    z-index: 2;
+}
+
+.logo-pill {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.1);
+    backdrop-filter: blur(10px);
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 35px;
+}
+
+.intro-title {
+    font-size: clamp(45px, 8vw, 82px);
+    line-height: 1.08;
+    font-weight: 900;
+    letter-spacing: -4px;
+}
+
+.gradient-text {
+    background: linear-gradient(
+        90deg,
+        #93c5fd,
+        #c4b5fd,
+        #f9a8d4
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.intro-description {
+    margin-top: 28px;
+    color: #cbd5e1;
+    line-height: 1.9;
+    font-size: 17px;
+}
+
+.start-button {
+    margin-top: 38px;
+    padding: 17px 30px;
+    border: none;
+    border-radius: 999px;
+    background: white;
+    color: #111827;
+    font-size: 16px;
+    font-weight: 800;
+    transition: .25s;
+}
+
+.start-button:hover {
+    transform: translateY(-3px) scale(1.03);
+}
+
+.disclaimer {
+    margin-top: 18px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+#inputPage {
+    background: #f8fafc;
+}
+
+.back-button {
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 14px;
+    padding: 0;
+    margin-bottom: 45px;
+}
+
+.step-label {
+    color: #6366f1;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.page-title {
+    font-size: 42px;
+    line-height: 1.2;
+    letter-spacing: -2px;
+    margin-top: 12px;
+    font-weight: 900;
+}
+
+.page-description {
+    margin-top: 15px;
+    color: #64748b;
+    line-height: 1.7;
+}
+
+.form-card {
+    margin-top: 35px;
+    padding: 32px;
+    background: white;
+    border-radius: 28px;
+    box-shadow: 0 15px 45px rgba(15,23,42,.06);
+}
+
+.form-label {
+    display: block;
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.optional {
+    color: #a1a1aa;
+    font-size: 11px;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+/* 양력 / 음력 */
+
+.calendar-type {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.calendar-button {
+    padding: 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    background: white;
+    color: #64748b;
+    font-weight: 800;
+    transition: .2s;
+}
+
+.calendar-button.active {
+    background: #eef2ff;
+    color: #4f46e5;
+    border-color: #6366f1;
+}
+
+.birth-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 10px;
+}
+
+.input,
+.select {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    outline: none;
+    font-size: 14px;
+    background: white;
+    transition: .2s;
+}
+
+.input:focus,
+.select:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 4px rgba(99,102,241,.08);
+}
+
+/* 윤달 */
+
+.leap-month-box {
+    display: none;
+    margin-top: 15px;
+    padding: 15px;
+    background: #faf5ff;
+    border-radius: 16px;
+    border: 1px solid #ede9fe;
+}
+
+.leap-month-box.show {
+    display: block;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #6d28d9;
+}
+
+.checkbox-label input {
+    width: 18px;
+    height: 18px;
+    accent-color: #7c3aed;
+}
+
+.form-group {
+    margin-top: 28px;
+}
+
+.gender-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.gender-button {
+    padding: 16px;
+    border-radius: 16px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    font-weight: 700;
+    color: #64748b;
+    transition: .2s;
+}
+
+.gender-button.active {
+    border-color: #6366f1;
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.analyze-button {
+    width: 100%;
+    margin-top: 30px;
+    padding: 18px;
+    border: none;
+    border-radius: 17px;
+    background: #111827;
+    color: white;
+    font-size: 15px;
+    font-weight: 800;
+    transition: .2s;
+}
+
+.analyze-button:hover {
+    background: #1f2937;
+    transform: translateY(-2px);
+}
+
+.info-box {
+    margin-top: 15px;
+    padding: 13px 15px;
+    background: #f8fafc;
+    border-radius: 14px;
+    color: #94a3b8;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+#loading {
+    min-height: 100vh;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.loading-emoji {
+    font-size: 70px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.loading-title {
+    font-size: 30px;
+    font-weight: 900;
+    margin-top: 30px;
+}
+
+.loading-description {
+    margin-top: 12px;
+    color: #94a3b8;
+}
+
+.loading-bar {
+    width: 300px;
+    max-width: 80vw;
+    height: 7px;
+    background: rgba(255,255,255,.1);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 30px auto 0;
+}
+
+.loading-progress {
+    height: 100%;
+    width: 0%;
+    background: white;
+    border-radius: 999px;
+    transition: width .5s;
+}
+
+/* =========================
+   RESULT
+========================= */
+
+#resultPage {
+    background: #f8fafc;
+}
+
+.result-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.brand {
+    font-weight: 900;
+    letter-spacing: 2px;
+    font-size: 13px;
+}
+
+.result-card {
+    background: white;
+    border-radius: 34px;
+    padding: 42px;
+    box-shadow: 0 20px 60px rgba(15,23,42,.08);
+    overflow: hidden;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.result-small {
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.main-element-title {
+    font-size: 48px;
+    font-weight: 900;
+    margin-top: 10px;
+    letter-spacing: -2px;
+}
+
+.main-element-vibe {
+    font-size: 19px;
+    font-weight: 800;
+    margin-top: 5px;
+}
+
+.sparkle {
+    font-size: 40px;
+}
+
+.result-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 45px;
+    margin-top: 45px;
+}
+
+.section-title {
+    font-size: 17px;
+    font-weight: 900;
+    margin-bottom: 25px;
+}
+
+/* 게이지 */
+
+.element-row {
+    margin-bottom: 20px;
+}
+
+.element-row-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.element-name {
+    font-weight: 800;
+}
+
+.element-percent {
+    color: #64748b;
+    font-weight: 700;
+}
+
+.progress-background {
+    width: 100%;
+    height: 10px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 1s;
+}
+
+/* 메인 오행 */
+
+.main-element-box {
+    border-radius: 27px;
+    padding: 30px;
+}
+
+.big-emoji {
+    font-size: 62px;
+}
+
+.main-box-label {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.main-box-title {
+    font-size: 32px;
+    font-weight: 900;
+    margin-top: 12px;
+}
+
+.main-box-subtitle {
+    font-weight: 800;
+    margin-top: 5px;
+}
+
+.main-description {
+    margin-top: 20px;
+    color: #64748b;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+/* 키워드 */
+
+.keywords-section {
+    border-top: 1px solid #f1f5f9;
+    margin-top: 40px;
+    padding-top: 30px;
+}
+
+.keyword-label {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.keyword {
+    display: inline-block;
+    background: #f8fafc;
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    color: #475569;
+    font-weight: 700;
+}
+
+/* =========================
+   오늘의 운세
+========================= */
+
+.today-section {
+    margin-top: 20px;
+}
+
+.today-card {
+    background:
+        linear-gradient(
+            135deg,
+            #1e293b,
+            #312e81
+        );
+    color: white;
+    border-radius: 30px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.today-card::after {
+    content: "✦";
+    position: absolute;
+    right: 25px;
+    top: 15px;
+    font-size: 80px;
+    color: rgba(255,255,255,.06);
+}
+
+.today-label {
+    color: #c4b5fd;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.today-title {
+    font-size: 26px;
+    font-weight: 900;
+    margin-top: 10px;
+}
+
+.today-message {
+    font-size: 18px;
+    line-height: 1.7;
+    font-weight: 700;
+    margin-top: 15px;
+    max-width: 700px;
+}
+
+.today-date {
+    margin-top: 18px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* =========================
+   상세 카드
+========================= */
+
+.detail-section {
+    margin-top: 35px;
+}
+
+.detail-title {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 18px;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.detail-card {
+    background: white;
+    border-radius: 27px;
+    padding: 25px;
+    border: 1px solid #f1f5f9;
+}
+
+.detail-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.detail-emoji {
+    font-size: 38px;
+}
+
+.detail-name {
+    font-size: 20px;
+    font-weight: 900;
+    margin-top: 12px;
+}
+
+.detail-title-text {
+    font-size: 13px;
+    font-weight: 800;
+    margin-top: 4px;
+}
+
+.detail-percent {
+    font-size: 12px;
+    font-weight: 800;
+    padding: 7px 10px;
+    border-radius: 999px;
+    height: fit-content;
+}
+
+.detail-keywords {
+    margin-top: 15px;
+}
+
+.detail-description {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.8;
+    margin-top: 15px;
+}
+
+/* =========================
+   케미 / 보완
+========================= */
+
+.guide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.guide-card {
+    background: white;
+    padding: 28px;
+    border-radius: 27px;
+    border: 1px solid #f1f5f9;
+}
+
+.guide-label {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.guide-title {
+    font-size: 22px;
+    font-weight: 900;
+    margin-top: 12px;
+}
+
+.guide-description {
+    color: #64748b;
+    line-height: 1.8;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+.item-box {
+    margin-top: 18px;
+    padding: 15px;
+    border-radius: 17px;
+}
+
+.item-label {
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.item-text {
+    color: #64748b;
+    margin-top: 4px;
+    font-size: 13px;
+}
+
+/* =========================
+   버튼
+========================= */
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.action-button {
+    padding: 17px;
+    border-radius: 17px;
+    font-weight: 800;
+    border: none;
+    font-size: 14px;
+}
+
+.download-button {
+    background: #111827;
+    color: white;
+}
+
+.retry-button {
+    background: white;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+}
+
+.footer {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 11px;
+    margin-top: 25px;
+    padding-bottom: 30px;
+}
+
+/* =========================
+   모바일
+========================= */
+
+@media (max-width: 700px) {
+
+    .page {
+        padding: 25px 15px;
+    }
+
+    .intro-title {
+        font-size: 48px;
+        letter-spacing: -3px;
+    }
+
+    .intro-description {
+        font-size: 14px;
+    }
+
+    .page-title {
+        font-size: 34px;
+    }
+
+    .form-card {
+        padding: 22px;
+    }
+
+    .birth-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .result-card {
+        padding: 25px;
+        border-radius: 27px;
+    }
+
+    .result-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .main-element-title {
+        font-size: 34px;
+    }
+
+    .result-header {
+        gap: 10px;
+    }
+
+    .detail-grid,
+    .guide-grid,
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .sparkle {
+        font-size: 28px;
+    }
+
+    .today-message {
+        font-size: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<section id="intro">
+
+    <div class="intro-content">
+
+        <div class="logo-pill">
+            ✨ O-HAENG VIBE
+        </div>
+
+        <h1 class="intro-title">
+            내 안의<br>
+            <span class="gradient-text">숨겨진 원소</span>를<br>
+            찾아봐
+        </h1>
+
+        <p class="intro-description">
+            생년월일로 알아보는 나만의 오행 바이브.<br>
+            나의 성향부터 오늘의 한마디까지<br>
+            가볍고 재미있게 확인해보세요.
+        </p>
+
+        <button
+            class="start-button"
+            onclick="showPage('inputPage')"
+        >
+            내 오행 바이브 알아보기 →
+        </button>
+
+        <p class="disclaimer">
+            재미로 보는 오행 성향 분석 서비스입니다.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     INPUT
+===================================================== -->
+
+<section id="inputPage" class="page hidden">
+
+    <div class="container">
+
+        <button
+            class="back-button"
+            onclick="showPage('intro')"
+        >
+            ← 뒤로가기
+        </button>
+
+        <span class="step-label">
+            STEP 01
+        </span>
+
+        <h1 class="page-title">
+            나의 정보를<br>
+            알려주세요
+        </h1>
+
+        <p class="page-description">
+            생년월일과 태어난 시간을 입력하면<br>
+            나만의 오행 바이브를 분석해드려요.
+        </p>
+
+
+        <div class="form-card">
+
+            <!-- 양력 / 음력 -->
+
+            <label class="form-label">
+                달력 종류
+            </label>
+
+            <div class="calendar-type">
+
+                <button
+                    id="solarButton"
+                    class="calendar-button active"
+                    onclick="selectCalendar('양력')"
+                >
+                    ☀️ 양력
+                </button>
+
+                <button
+                    id="lunarButton"
+                    class="calendar-button"
+                    onclick="selectCalendar('음력')"
+                >
+                    🌙 음력
+                </button>
+
+            </div>
+
+
+            <!-- 생년월일 -->
+
+            <label class="form-label">
+                생년월일
+            </label>
+
+            <div class="birth-grid">
+
+                <input
+                    id="year"
+                    class="input"
+                    type="number"
+                    placeholder="YYYY"
+                    min="1900"
+                    max="2100"
+                >
+
+                <input
+                    id="month"
+                    class="input"
+                    type="number"
+                    placeholder="MM"
+                    min="1"
+                    max="12"
+                >
+
+                <input
+                    id="day"
+                    class="input"
+                    type="number"
+                    placeholder="DD"
+                    min="1"
+                    max="31"
+                >
+
+            </div>
+
+
+            <!-- 윤달 -->
+
+            <div
+                id="leapMonthBox"
+                class="leap-month-box"
+            >
+
+                <label class="checkbox-label">
+
+                    <input
+                        id="leapMonth"
+                        type="checkbox"
+                    >
+
+                    <span>
+                        윤달입니다
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <!-- 시간 -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    태어난 시간
+                    <span class="optional">
+                        선택
+                    </span>
+                </label>
+
+                <select
+                    id="hour"
+                    class="select"
+                >
+
+                    <option value="">
+                        시간을 선택해주세요
+                    </option>
+
+                    <option value="0">00:00</option>
+                    <option value="1">01:00</option>
+                    <option value="2">02:00</option>
+                    <option value="3">03:00</option>
+                    <option value="4">04:00</option>
+                    <option value="5">05:00</option>
+                    <option value="6">06:00</option>
+                    <option value="7">07:00</option>
+                    <option value="8">08:00</option>
+                    <option value="9">09:00</option>
+                    <option value="10">10:00</option>
+                    <option value="11">11:00</option>
+                    <option value="12">12:00</option>
+                    <option value="13">13:00</option>
+                    <option value="14">14:00</option>
+                    <option value="15">15:00</option>
+                    <option value="16">16:00</option>
+                    <option value="17">17:00</option>
+                    <option value="18">18:00</option>
+                    <option value="19">19:00</option>
+                    <option value="20">20:00</option>
+                    <option value="21">21:00</option>
+                    <option value="22">22:00</option>
+                    <option value="23">23:00</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- 성별 -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    성별
+                </label>
+
+                <div class="gender-grid">
+
+                    <button
+                        id="femaleButton"
+                        class="gender-button"
+                        onclick="selectGender('여성')"
+                    >
+                        여성
+                    </button>
+
+                    <button
+                        id="maleButton"
+                        class="gender-button"
+                        onclick="selectGender('남성')"
+                    >
+                        남성
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+                💡 입력한 생년월일은 오행 성향을 재미있게 분석하기 위한
+                용도로 사용됩니다.
+            </div>
+
+
+            <button
+                class="analyze-button"
+                onclick="startAnalysis()"
+            >
+                오행 바이브 분석하기 ✨
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LOADING
+===================================================== -->
+
+<section id="loading" class="hidden">
+
+    <div>
+
+        <div class="loading-emoji">
+            ✨
+        </div>
+
+        <h1
+            id="loadingTitle"
+            class="loading-title"
+        >
+            우주의 기운을 모으는 중...
+        </h1>
+
+        <p class="loading-description">
+            잠시만 기다려주세요.
+        </p>
+
+        <div class="loading-bar">
+
+            <div
+                id="loadingProgress"
+                class="loading-progress"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RESULT
+===================================================== -->
+
+<section id="resultPage" class="page hidden">
+
+    <div class="container">
+
+        <div class="result-top">
+
+            <button
+                class="back-button"
+                onclick="showPage('inputPage')"
+            >
+                ← 다시하기
+            </button>
+
+            <span class="brand">
+                O-HAENG VIBE
+            </span>
+
+        </div>
+
+
+        <!-- 결과 카드 -->
+
+        <div
+            id="resultCard"
+            class="result-card"
+        >
+
+            <div class="result-header">
+
+                <div>
+
+                    <span class="result-small">
+                        MY O-HAENG VIBE
+                    </span>
+
+                    <h1
+                        id="mainElementTitle"
+                        class="main-element-title"
+                    ></h1>
+
+                    <p
+                        id="mainElementVibe"
+                        class="main-element-vibe"
+                    ></p>
+
+                </div>
+
+                <div class="sparkle">
+                    ✨
+                </div>
+
+            </div>
+
+
+            <div class="result-layout">
+
+                <div>
+
+                    <h2 class="section-title">
+                        나의 오행 밸런스
+                    </h2>
+
+                    <div id="elementBars"></div>
+
+                </div>
+
+
+                <div
+                    id="mainElementBox"
+                    class="main-element-box"
+                >
+
+                    <span class="main-box-label">
+                        나의 주력 오행
+                    </span>
+
+                    <div
+                        id="mainEmoji"
+                        class="big-emoji"
+                    ></div>
+
+                    <h2
+                        id="mainBoxTitle"
+                        class="main-box-title"
+                    ></h2>
+
+                    <p
+                        id="mainBoxSubtitle"
+                        class="main-box-subtitle"
+                    ></p>
+
+                    <p
+                        id="mainDescription"
+                        class="main-description"
+                    ></p>
+
+                </div>
+
+            </div>
+
+
+            <div class="keywords-section">
+
+                <p class="keyword-label">
+                    MY KEYWORDS
+                </p>
+
+                <div id="mainKeywords"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             오늘의 한마디
+        ========================== -->
+
+        <div class="today-section">
+
+            <div class="today-card">
+
+                <div class="today-label">
+                    TODAY'S O-HAENG MESSAGE
+                </div>
+
+                <h2 class="today-title">
+                    오늘의 한마디 ✨
+                </h2>
+
+                <p
+                    id="todayMessage"
+                    class="today-message"
+                ></p>
+
+                <p
+                    id="todayDate"
+                    class="today-date"
+                ></p>
+
+            </div>
+
+        </div>
+
+
+        <!-- 상세 성향 -->
+
+        <div class="detail-section">
+
+            <h2 class="detail-title">
+                오행별 나의 성향
+            </h2>
+
+            <div
+                id="detailGrid"
+                class="detail-grid"
+            ></div>
+
+        </div>
+
+
+        <!-- 케미 / 보완 -->
+
+        <div class="guide-grid">
+
+            <div class="guide-card">
+
+                <span class="guide-label">
+                    MY O-HAENG CHEMISTRY
+                </span>
+
+                <h2
+                    id="chemistryTitle"
+                    class="guide-title"
+                ></h2>
+
+                <p
+                    id="chemistryDescription"
+                    class="guide-description"
+                ></p>
+
+            </div>
+
+
+            <div class="guide-card">
+
+                <span class="guide-label">
+                    BALANCE GUIDE
+                </span>
+
+                <h2
+                    id="balanceTitle"
+                    class="guide-title"
+                ></h2>
+
+                <p
+                    id="balanceDescription"
+                    class="guide-description"
+                ></p>
+
+                <div
+                    id="itemBox"
+                    class="item-box"
+                >
+
+                    <div class="item-label">
+                        추천 아이템
+                    </div>
+
+                    <div
+                        id="itemText"
+                        class="item-text"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- 버튼 -->
+
+        <div class="action-buttons">
+
+            <button
+                class="action-button download-button"
+                onclick="downloadCard()"
+            >
+                📸 결과 카드 저장하기
+            </button>
+
+            <button
+                class="action-button retry-button"
+                onclick="showPage('inputPage')"
+            >
+                🔄 다시 분석하기
+            </button>
+
+        </div>
+
+
+        <p class="footer">
+            O-Haeng Vibe · 재미로 보는 오행 성향 분석
+        </p>
+
+    </div>
+
+</section>
+
+
+<script>
+
+/* =========================================================
+   기본 설정
+========================================================= */
+
+let selectedGender = "";
+let selectedCalendar = "양력";
+
+
+/* =========================================================
+   오행 데이터
+========================================================= */
+
+const ELEMENTS = {
+
+    목: {
+        name: "목(木)",
+        emoji: "🌳",
+        title: "성장과 추진력",
+        color: "#65A30D",
+        keywords: [
+            "성장",
+            "아이디어",
+            "도전",
+            "추진력"
+        ],
+        description:
+            "새로운 것을 시작하고 성장시키는 힘이 강해요. 아이디어가 풍부하고 새로운 프로젝트를 시작하는 데 거리낌이 없는 편이에요.",
+        item:
+            "식물 · 우드 소품",
+        vibe:
+            "아이디어가 샘솟는 기획자"
+    },
+
+    화: {
+        name: "화(火)",
+        emoji: "🔥",
+        title: "열정과 표현력",
+        color: "#F97316",
+        keywords: [
+            "열정",
+            "표현",
+            "트렌드",
+            "에너지"
+        ],
+        description:
+            "자신의 생각과 감정을 적극적으로 표현하는 편이에요. 분위기를 밝게 만들고 새로운 트렌드를 빠르게 받아들여요.",
+        item:
+            "캔들 · 오렌지 컬러 아이템",
+        vibe:
+            "분위기를 만드는 감성파"
+    },
+
+    토: {
+        name: "토(土)",
+        emoji: "⛰️",
+        title: "신뢰와 포용력",
+        color: "#A16207",
+        keywords: [
+            "신뢰",
+            "안정",
+            "배려",
+            "현실감각"
+        ],
+        description:
+            "주변 사람들에게 안정감을 주는 타입이에요. 현실적인 판단을 하면서도 다른 사람의 이야기를 잘 들어주는 편이에요.",
+        item:
+            "도자기 · 베이지 소품",
+        vibe:
+            "모두가 믿고 의지하는 조력자"
+    },
+
+    금: {
+        name: "금(金)",
+        emoji: "⚔️",
+        title: "결단력과 원칙",
+        color: "#64748B",
+        keywords: [
+            "분석",
+            "결단",
+            "원칙",
+            "완성도"
+        ],
+        description:
+            "목표가 정해지면 끝까지 완성하려는 힘이 있어요. 문제를 논리적으로 바라보고 깔끔하게 해결하는 것을 좋아해요.",
+        item:
+            "메탈 소품 · 실버 액세서리",
+        vibe:
+            "깔끔하게 해내는 일잘러"
+    },
+
+    수: {
+        name: "수(水)",
+        emoji: "💧",
+        title: "지혜와 유연함",
+        color: "#2563EB",
+        keywords: [
+            "통찰",
+            "직관",
+            "유연함",
+            "적응력"
+        ],
+        description:
+            "상황을 깊게 관찰하고 다양한 관점에서 생각하는 편이에요. 변화에 유연하게 적응하며 자신만의 답을 찾아가요.",
+        item:
+            "아쿠아 컬러 · 향수",
+        vibe:
+            "조용하지만 깊은 통찰력을 가진 사람"
+    }
+
+};
+
+const ELEMENT_KEYS = [
+    "목",
+    "화",
+    "토",
+    "금",
+    "수"
+];
+
+
+/* =========================================================
+   양력 / 음력 선택
+========================================================= */
+
+function selectCalendar(type) {
+
+    selectedCalendar = type;
+
+    document
+        .getElementById("solarButton")
+        .classList.remove("active");
+
+    document
+        .getElementById("lunarButton")
+        .classList.remove("active");
+
+
+    if (type === "양력") {
+
+        document
+            .getElementById("solarButton")
+            .classList.add("active");
+
+        document
+            .getElementById("leapMonthBox")
+            .classList.remove("show");
+
+        document
+            .getElementById("leapMonth")
+            .checked = false;
+
+    } else {
+
+        document
+            .getElementById("lunarButton")
+            .classList.add("active");
+
+        document
+            .getElementById("leapMonthBox")
+            .classList.add("show");
+
+    }
+
+}
+
+
+/* =========================================================
+   성별 선택
+========================================================= */
+
+function selectGender(gender) {
+
+    selectedGender = gender;
+
+    document
+        .getElementById("femaleButton")
+        .classList.remove("active");
+
+    document
+        .getElementById("maleButton")
+        .classList.remove("active");
+
+
+    if (gender === "여성") {
+
+        document
+            .getElementById("femaleButton")
+            .classList.add("active");
+
+    } else {
+
+        document
+            .getElementById("maleButton")
+        .classList.add("active");
+
+    }
+
+}
+
+
+/* =========================================================
+   페이지 전환
+========================================================= */
+
+function showPage(pageId) {
+
+    const pages = [
+        "intro",
+        "inputPage",
+        "loading",
+        "resultPage"
+    ];
+
+
+    pages.forEach(function(id) {
+
+        document
+            .getElementById(id)
+            .classList.add("hidden");
+
+    });
+
+
+    document
+        .getElementById(pageId)
+        .classList.remove("hidden");
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+/* =========================================================
+   천간 / 지지
+========================================================= */
+
+const STEM_ELEMENTS = {
+
+    갑: "목",
+    을: "목",
+
+    병: "화",
+    정: "화",
+
+    무: "토",
+    기: "토",
+
+    경: "금",
+    신: "금",
+
+    임: "수",
+    계: "수"
+
+};
+
+
+const BRANCH_ELEMENTS = {
+
+    자: "수",
+    축: "토",
+    인: "목",
+    묘: "목",
+    진: "토",
+    사: "화",
+    오: "화",
+    미: "토",
+    신: "금",
+    유: "금",
+    술: "토",
+    해: "수"
+
+};
+
+
+const STEMS = [
+    "갑",
+    "을",
+    "병",
+    "정",
+    "무",
+    "기",
+    "경",
+    "신",
+    "임",
+    "계"
+];
+
+
+const BRANCHES = [
+    "자",
+    "축",
+    "인",
+    "묘",
+    "진",
+    "사",
+    "오",
+    "미",
+    "신",
+    "유",
+    "술",
+    "해"
+];
+
+
+/* =========================================================
+   오행 계산
+========================================================= */
+
+function calculateFiveElements(
+    year,
+    month,
+    day,
+    hour,
+    calendarType,
+    leapMonth
+) {
+
+    const result = {
+        목: 0,
+        화: 0,
+        토: 0,
+        금: 0,
+        수: 0
+    };
+
+
+    const y = Number(year);
+    const m = Number(month);
+    const d = Number(day);
+
+    const h =
+        hour === ""
+            ? 12
+            : Number(hour);
+
+
+    /*
+       양력 / 음력 입력 구분을 반영하기 위한
+       프로토타입 계산값입니다.
+
+       실제 만세력에서는 음력 → 양력 변환 후
+       절기와 출생시간까지 정확하게 계산해야 합니다.
+    */
+
+    let calendarOffset =
+        calendarType === "음력"
+            ? 2
+            : 0;
+
+
+    if (leapMonth) {
+        calendarOffset += 1;
+    }
+
+
+    const yearIndex =
+        Math.abs(
+            y - 4
+        ) + calendarOffset;
+
+
+    const yearStem =
+        STEMS[
+            yearIndex % 10
+        ];
+
+
+    const yearBranch =
+        BRANCHES[
+            yearIndex % 12
+        ];
+
+
+    const monthBranch =
+        BRANCHES[
+            (m + 1 + calendarOffset)
+            % 12
+        ];
+
+
+    const dateNumber =
+        Math.floor(
+            Date.UTC(
+                y,
+                m - 1,
+                d
+            ) / 86400000
+        );
+
+
+    const dayIndex =
+        Math.abs(
+            dateNumber +
+            calendarOffset
+        ) % 12;
+
+
+    const dayBranch =
+        BRANCHES[dayIndex];
+
+
+    const dayStem =
+        STEMS[
+            dayIndex % 10
+        ];
+
+
+    const hourIndex =
+        Math.floor(
+            ((h + 1) % 24) / 2
+        );
+
+
+    const hourBranch =
+        BRANCHES[
+            hourIndex
+        ];
+
+
+    const pillars = [
+        yearStem,
+        yearBranch,
+        monthBranch,
+        dayStem,
+        dayBranch,
+        hourBranch
+    ];
+
+
+    pillars.forEach(
+        function(value, index) {
+
+            let element = null;
+
+
+            if (STEM_ELEMENTS[value]) {
+
+                element =
+                    STEM_ELEMENTS[value];
+
+            } else if (
+                BRANCH_ELEMENTS[value]
+            ) {
+
+                element =
+                    BRANCH_ELEMENTS[value];
+
+            }
+
+
+            if (element) {
+
+                result[element] +=
+                    index % 2 === 0
+                        ? 2
+                        : 1;
+
+            }
+
+        }
+    );
+
+
+    const digits =
+        `${y}${m}${d}${h}${calendarOffset}`
+        .split("")
+        .map(Number);
+
+
+    digits.forEach(
+        function(
+            digit,
+            index
+        ) {
+
+            const element =
+                ELEMENT_KEYS[
+                    (digit + index)
+                    % ELEMENT_KEYS.length
+                ];
+
+
+            result[element] += 0.5;
+
+        }
+    );
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   오늘 날짜
+========================================================= */
+
+function getTodayDate() {
+
+    const today =
+        new Date();
+
+
+    const year =
+        today.getFullYear();
+
+    const month =
+        today.getMonth() + 1;
+
+    const day =
+        today.getDate();
+
+
+    return (
+        year +
+        "년 " +
+        month +
+        "월 " +
+        day +
+        "일"
+    );
+
+}
+
+
+/* =========================================================
+   오늘의 한마디
+========================================================= */
+
+function createTodayMessage(
+    mainElement,
+    weakestElement
+) {
+
+    const messages = {
+
+        목: [
+            "오늘은 새로운 아이디어를 작게라도 시작해보세요.",
+            "망설이기보다 먼저 움직이면 좋은 흐름을 만들 수 있어요.",
+            "새로운 사람이나 새로운 시도에서 좋은 영감을 얻을 수 있어요."
+        ],
+
+        화: [
+            "오늘은 나의 생각을 적극적으로 표현해보세요.",
+            "밝은 에너지가 주변 분위기까지 바꿔줄 수 있는 날이에요.",
+            "하고 싶었던 말을 너무 오래 미루지 않는 것이 좋아요."
+        ],
+
+        토: [
+            "오늘은 서두르기보다 차분하게 하나씩 해결해보세요.",
+            "주변 사람에게 건넨 작은 배려가 좋은 흐름으로 돌아올 수 있어요.",
+            "익숙한 일에서 의외의 안정감과 기회를 발견할 수 있어요."
+        ],
+
+        금: [
+            "오늘은 중요한 일을 깔끔하게 정리하기 좋은 날이에요.",
+            "작은 기준 하나를 세우면 생각보다 일이 쉽게 풀릴 수 있어요.",
+            "결정하기 전에 한 번 더 확인하는 습관이 도움이 돼요."
+        ],
+
+        수: [
+            "오늘은 직감이 떠오른다면 메모해두세요.",
+            "조용히 생각할 시간이 좋은 아이디어로 이어질 수 있어요.",
+            "상황에 맞춰 유연하게 움직이면 좋은 기회를 만날 수 있어요."
+        ]
+
+    };
+
+
+    const warnings = {
+
+        목:
+            "오늘은 너무 많은 일을 한꺼번에 시작하지 않도록 주의하세요.",
+
+        화:
+            "감정이 앞설 때는 바로 결정하지 말고 잠시 생각해보세요.",
+
+        토:
+            "다른 사람의 부탁을 모두 받아주느라 자신을 놓치지 마세요.",
+
+        금:
+            "완벽하게 하려다 작은 일까지 지나치게 신경 쓰지 않도록 해보세요.",
+
+        수:
+            "생각이 너무 많아져 결정을 계속 미루지 않도록 주의하세요."
+
+    };
+
+
+    const lucky = {
+
+        목:
+            "🌱 행운 포인트: 초록색 · 식물 · 새로운 시작",
+
+        화:
+            "🔥 행운 포인트: 오렌지색 · 음악 · 사람들과의 대화",
+
+        토:
+            "⛰️ 행운 포인트: 베이지색 · 따뜻한 공간 · 정리",
+
+        금:
+            "⚔️ 행운 포인트: 실버 · 깔끔한 책상 · 체크리스트",
+
+        수:
+            "💧 행운 포인트: 블루 · 물 · 혼자만의 시간"
+
+    };
+
+
+    /*
+       날짜에 따라 같은 문구만 반복되지 않도록
+       오늘 날짜 숫자를 활용
+    */
+
+    const today =
+        new Date();
+
+
+    const seed =
+        today.getDate()
+        + today.getMonth()
+        + mainElement.charCodeAt(0);
+
+
+    const messageIndex =
+        seed %
+        messages[mainElement].length;
+
+
+    return {
+
+        message:
+            messages[mainElement][messageIndex],
+
+        warning:
+            warnings[weakestElement],
+
+        lucky:
+            lucky[mainElement]
+
+    };
+
+}
+
+
+/* =========================================================
+   분석 시작
+========================================================= */
+
+function startAnalysis() {
+
+    const year =
+        document
+            .getElementById("year")
+            .value;
+
+    const month =
+        document
+            .getElementById("month")
+            .value;
+
+    const day =
+        document
+            .getElementById("day")
+            .value;
+
+    const hour =
+        document
+            .getElementById("hour")
+            .value;
+
+
+    const leapMonth =
+        document
+            .getElementById("leapMonth")
+            .checked;
+
+
+    if (
+        !year ||
+        !month ||
+        !day ||
+        !selectedGender
+    ) {
+
+        alert(
+            "달력 종류, 생년월일, 성별을 입력해주세요."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        Number(month) < 1 ||
+        Number(month) > 12 ||
+        Number(day) < 1 ||
+        Number(day) > 31
+    ) {
+
+        alert(
+            "올바른 생년월일을 입력해주세요."
+        );
+
+        return;
+
+    }
+
+
+    showPage("loading");
+
+
+    const messages = [
+
+        "우주의 기운을 모으는 중...",
+
+        "오행 에너지를 측정하고 있어요...",
+
+        "나만의 바이브를 분석하는 중...",
+
+        "오늘의 한마디를 준비하고 있어요..."
+
+    ];
+
+
+    let progress = 0;
+
+
+    const interval =
+        setInterval(
+            function() {
+
+                progress += 25;
+
+
+                document
+                    .getElementById(
+                        "loadingProgress"
+                    )
+                    .style.width =
+                    progress + "%";
+
+
+                document
+                    .getElementById(
+                        "loadingTitle"
+                    )
+                    .textContent =
+                    messages[
+                        Math.min(
+                            progress / 25 - 1,
+                            messages.length - 1
+                        )
+                    ];
+
+
+                if (progress >= 100) {
+
+                    clearInterval(interval);
+
+
+                    const elements =
+                        calculateFiveElements(
+                            year,
+                            month,
+                            day,
+                            hour,
+                            selectedCalendar,
+                            leapMonth
+                        );
+
+
+                    createResult(
+                        elements
+                    );
+
+                }
+
+            },
+            550
+        );
+
+}
+
+
+/* =========================================================
+   결과 생성
+========================================================= */
+
+function createResult(
+    elements
+) {
+
+    const total =
+        Object
+            .values(elements)
+            .reduce(
+                function(sum, value) {
+                    return sum + value;
+                },
+                0
+            );
+
+
+    const percentages = {};
+
+
+    ELEMENT_KEYS.forEach(
+        function(element) {
+
+            percentages[element] =
+                (
+                    elements[element]
+                    / total
+                ) * 100;
+
+        }
+    );
+
+
+    let mainElement =
+        ELEMENT_KEYS[0];
+
+
+    ELEMENT_KEYS.forEach(
+        function(element) {
+
+            if (
+                percentages[element]
+                >
+                percentages[mainElement]
+            ) {
+
+                mainElement =
+                    element;
+
+            }
+
+        }
+    );
+
+
+    let weakestElement =
+        ELEMENT_KEYS[0];
+
+
+    ELEMENT_KEYS.forEach(
+        function(element) {
+
+            if (
+                percentages[element]
+                <
+                percentages[weakestElement]
+            ) {
+
+                weakestElement =
+                    element;
+
+            }
+
+        }
+    );
+
+
+    renderResult(
+        percentages,
+        mainElement,
+        weakestElement
+    );
+
+
+    setTimeout(
+        function() {
+
+            showPage(
+                "resultPage"
+            );
+
+        },
+        500
+    );
+
+}
+
+
+/* =========================================================
+   결과 화면
+========================================================= */
+
+function renderResult(
+    percentages,
+    mainElement,
+    weakestElement
+) {
+
+    const main =
+        ELEMENTS[mainElement];
+
+    const weak =
+        ELEMENTS[weakestElement];
+
+
+    /* 메인 */
+
+    document
+        .getElementById(
+            "mainElementTitle"
+        )
+        .textContent =
+        main.emoji +
+        " " +
+        main.name;
+
+
+    document
+        .getElementById(
+            "mainElementVibe"
+        )
+        .textContent =
+        main.vibe;
+
+
+    const mainBox =
+        document
+            .getElementById(
+                "mainElementBox"
+            );
+
+
+    mainBox.style.backgroundColor =
+        main.color +
+        "15";
+
+
+    document
+        .getElementById(
+            "mainEmoji"
+        )
+        .textContent =
+        main.emoji;
+
+
+    document
+        .getElementById(
+            "mainBoxTitle"
+        )
+        .textContent =
+        main.name;
+
+
+    document
+        .getElementById(
+            "mainBoxTitle"
+        )
+        .style.color =
+        main.color;
+
+
+    document
+        .getElementById(
+            "mainBoxSubtitle"
+        )
+        .textContent =
+        main.title;
+
+
+    document
+        .getElementById(
+            "mainBoxSubtitle"
+        )
+        .style.color =
+        main.color;
+
+
+    document
+        .getElementById(
+            "mainDescription"
+        )
+        .textContent =
+        main.description;
+
+
+    /* 키워드 */
+
+    const keywordBox =
+        document
+            .getElementById(
+                "mainKeywords"
+            );
+
+
+    keywordBox.innerHTML = "";
+
+
+    main.keywords.forEach(
+        function(keyword) {
+
+            const span =
+                document.createElement(
+                    "span"
+                );
+
+
+            span.className =
+                "keyword";
+
+
+            span.textContent =
+                "#" + keyword;
+
+
+            keywordBox.appendChild(
+                span
+            );
+
+        }
+    );
+
+
+    /* 오행 게이지 */
+
+    const bars =
+        document
+            .getElementById(
+                "elementBars"
+            );
+
+
+    bars.innerHTML = "";
+
+
+    ELEMENT_KEYS.forEach(
+        function(element) {
+
+            const info =
+                ELEMENTS[element];
+
+            const value =
+                percentages[element];
+
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "element-row";
+
+
+            row.innerHTML = `
+
+                <div class="element-row-top">
+
+                    <span class="element-name">
+                        ${info.emoji}
+                        ${info.name}
+                    </span>
+
+                    <span class="element-percent">
+                        ${Math.round(value)}%
+                    </span>
+
+                </div>
+
+                <div class="progress-background">
+
+                    <div
+                        class="progress"
+                        style="
+                            width:${value}%;
+                            background:${info.color};
+                        "
+                    ></div>
+
+                </div>
+
+            `;
+
+
+            bars.appendChild(row);
+
+        }
+    );
+
+
+    /* 상세 카드 */
+
+    const detailGrid =
+        document
+            .getElementById(
+                "detailGrid"
+            );
+
+
+    detailGrid.innerHTML = "";
+
+
+    ELEMENT_KEYS.forEach(
+        function(element) {
+
+            const info =
+                ELEMENTS[element];
+
+            const value =
+                percentages[element];
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "detail-card";
+
+
+            const keywordHTML =
+                info.keywords
+                    .map(
+                        function(keyword) {
+
+                            return `
+
+                                <span
+                                    class="keyword"
+                                    style="
+                                        background:
+                                        ${info.color}12;
+                                        color:
+                                        ${info.color};
+                                    "
+                                >
+                                    #${keyword}
+                                </span>
+
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+
+            card.innerHTML = `
+
+                <div class="detail-top">
+
+                    <div>
+
+                        <div class="detail-emoji">
+                            ${info.emoji}
+                        </div>
+
+                        <div class="detail-name">
+                            ${info.name}
+                        </div>
+
+                        <div
+                            class="detail-title-text"
+                            style="
+                                color:${info.color};
+                            "
+                        >
+                            ${info.title}
+                        </div>
+
+                    </div>
+
+                    <span
+                        class="detail-percent"
+                        style="
+                            background:
+                            ${info.color}15;
+                            color:
+                            ${info.color};
+                        "
+                    >
+                        ${Math.round(value)}%
+                    </span>
+
+                </div>
+
+                <div class="detail-keywords">
+                    ${keywordHTML}
+                </div>
+
+                <p class="detail-description">
+                    ${info.description}
+                </p>
+
+            `;
+
+
+            detailGrid.appendChild(
+                card
+            );
+
+        }
+    );
+
+
+    /* 오늘의 한마디 */
+
+    const today =
+        createTodayMessage(
+            mainElement,
+            weakestElement
+        );
+
+
+    document
+        .getElementById(
+            "todayMessage"
+        )
+        .innerHTML =
+        `
+        ${today.message}
+        <br>
+        <span
+            style="
+                font-size:14px;
+                color:#cbd5e1;
+                font-weight:500;
+            "
+        >
+            ⚠️ ${today.warning}
+            <br>
+            ${today.lucky}
+        </span>
+        `;
+
+
+    document
+        .getElementById(
+            "todayDate"
+        )
+        .textContent =
+        getTodayDate() +
+        " · 오늘의 오행 바이브";
+
+
+    /* 케미 */
+
+    document
+        .getElementById(
+            "chemistryTitle"
+        )
+        .textContent =
+        main.emoji +
+        " " +
+        main.name +
+        " 에너지";
+
+
+    document
+        .getElementById(
+            "chemistryDescription"
+        )
+        .textContent =
+        "나의 주력 오행과 비슷한 에너지를 가진 사람과 함께하면 서로의 강점을 자연스럽게 끌어낼 수 있어요. 다양한 오행의 사람들과 어울리면서 새로운 관점도 경험해보세요.";
+
+
+    /* 보완 */
+
+    document
+        .getElementById(
+            "balanceTitle"
+        )
+        .textContent =
+        weak.emoji +
+        " " +
+        weak.name +
+        " 에너지 채우기";
+
+
+    document
+        .getElementById(
+            "balanceDescription"
+        )
+        .textContent =
+        "현재 상대적으로 적은 " +
+        weak.name +
+        "의 분위기를 일상에 조금씩 더해보세요.";
+
+
+    const itemBox =
+        document.getElementById(
+            "itemBox"
+        );
+
+
+    itemBox.style.backgroundColor =
+        weak.color +
+        "15";
+
+
+    document
+        .getElementById(
+            "itemText"
+        )
+        .textContent =
+        weak.item;
+
+}
+
+
+/* =========================================================
+   결과 카드 저장
+========================================================= */
+
+function downloadCard() {
+
+    const card =
+        document.getElementById(
+            "resultCard"
+        );
+
+
+    /*
+       html2canvas를 인터넷에서 불러옵니다.
+       HTML 파일 하나만으로 실행할 수 있도록
+       버튼 클릭 시 자동으로 로드합니다.
+    */
+
+    if (
+        typeof html2canvas ===
+        "undefined"
+    ) {
+
+        const script =
+            document.createElement(
+                "script"
+            );
+
+
+        script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+
+
+        script.onload =
+            function() {
+
+                saveCardImage();
+
+            };
+
+
+        script.onerror =
+            function() {
+
+                alert(
+                    "이미지 저장 기능은 인터넷에 연결된 상태에서 사용할 수 있어요."
+                );
+
+            };
+
+
+        document
+            .head
+            .appendChild(
+                script
+            );
+
+    } else {
+
+        saveCardImage();
+
+    }
+
+}
+
+
+function saveCardImage() {
+
+    const card =
+        document.getElementById(
+            "resultCard"
+        );
+
+
+    html2canvas(
+        card,
+        {
+            scale: 2,
+            backgroundColor: "#ffffff",
+            useCORS: true
+        }
+    )
+    .then(
+        function(canvas) {
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+
+            link.download =
+                "my-o-haeng-vibe.png";
+
+
+            link.href =
+                canvas.toDataURL(
+                    "image/png"
+                );
+
+
+            link.click();
+
+        }
+    )
+    .catch(
+        function(error) {
+
+            console.error(error);
+
+            alert(
+                "이미지 저장에 실패했습니다."
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   시작
+========================================================= */
+
+showPage("intro");
+
+</script>
+
+</body>
+</html>
